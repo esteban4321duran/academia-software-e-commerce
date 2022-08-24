@@ -36,9 +36,9 @@ TypeScript fue utilizado para añadir un sistema de tipos y múltiples caracteri
 
 ### Frontend
 
-[React](https://es.reactjs.org/) y [MaterialUI](https://mui.com/)  
+[React](https://es.reactjs.org/) y [Tailwindcss](https://tailwindcss.com/)  
 React se utilizó para el desarrollo de una interfaz gráfica de usuario altamente interactiva.  
-MaterialUI nos brinda los elementos necesarios para su rápida elaboración. Además, con esta librería obtuvimos un "look and feel" moderno y profesional, mejorando la usabilidad y la experiencia del usuario.
+Tailwindcss nos provee un framework de diseño con el cual podemos implementar rápidamente el diseño de nuestros componentes y mantener la consistencia del mismo a lo largo de todo el proyecto.
 
 ### Backend
 
