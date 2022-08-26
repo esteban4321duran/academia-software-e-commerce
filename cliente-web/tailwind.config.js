@@ -3,6 +3,12 @@ module.exports = {
     content: ["./src/**/*.{js,jsx,ts,tsx}"],
     theme: {
         extend: {},
+        colors: {
+            color60: "#ffffff",
+            color30: "#0A1548",
+            color10: "#1AC79B",
+            testColor: "orangered",
+        },
     },
     plugins: [],
 };
