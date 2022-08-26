@@ -1,10 +1,13 @@
+import { Routes, Route } from "react-router-dom";
+import Courses from "./pages/courses";
+
 function App() {
+    //TODO refactor this following react router v6 tutorial
+    //https://reactrouter.com/en/v6.3.0/getting-started/tutorial
     return (
-        <div className="bg-slate-900 min-h-screen grid grid-cols-3 grid-rows-2 justify-items-center items-center">
-            <h1 className="text-5xl text-sky-500 col-span-3 font-bold font-sans">
-                Hello React!
-            </h1>
-        </div>
+        <Routes>
+            <Route path="/cursos" element={<Courses />} />
+        </Routes>
     );
 }
 
