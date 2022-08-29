@@ -1,10 +1,48 @@
+import { useState } from "react";
+import { getAmountInCart } from "./hooks/session";
+import Nav from "./layout/nav";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Courses from "./pages/courses";
+import Course from "./pages/course";
+import Login from "./pages/login";
+import Signup from "./pages/signup";
+import Cart from "./pages/cart";
+
 function App() {
+    const [cartAmount, setCartAmount] = useState(getAmountInCart());
+    const handleAddToCart: React.MouseEventHandler<HTMLButtonElement> = (
+        event
+    ) => {
+        console.log("added to cart");
+        setCartAmount(cartAmount + 1);
+    };
     return (
-        <div className="bg-slate-900 min-h-screen grid grid-cols-3 grid-rows-2 justify-items-center items-center">
-            <h1 className="text-5xl text-sky-500 col-span-3 font-bold font-sans">
-                Hello React!
-            </h1>
-        </div>
+        <BrowserRouter>
+            <Nav cartAmount={cartAmount} />
+            <Routes>
+                <Route path="/" element={<Courses />} />
+                <Route path="/cursos" element={<Courses />} />
+                <Route
+                    path="/cursos/:idCurso"
+                    element={<Course addToCartHandler={handleAddToCart} />}
+                />
+                <Route path="/ingresar" element={<Login />} />
+                <Route path="/registrarse" element={<Signup />} />
+                <Route
+                    path="/mis-cursos"
+                    element={<p className="w-fit my-32 mx-auto">mis cursos</p>}
+                />
+                <Route path="/carrito" element={<Cart />} />
+                <Route
+                    path="*"
+                    element={
+                        <main>
+                            <p className="w-fit my-32 mx-auto">404 Not Found</p>
+                        </main>
+                    }
+                />
+            </Routes>
+        </BrowserRouter>
     );
 }
 

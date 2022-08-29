@@ -8,6 +8,7 @@ module.exports = {
             color30: "#0A1548",
             color10: "#1AC79B",
             testColor: "orangered",
+            colorInvalid: "#E11D48",
         },
     },
     plugins: [],
