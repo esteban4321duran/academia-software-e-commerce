@@ -5,15 +5,16 @@ import Main from "../../layout/main";
 import FormField from "../../components/formField";
 import Button from "../../components/button";
 import { authenticate } from "../../hooks/api";
-import { createSession } from "../../hooks/session";
+import { setSessionUser } from "../../hooks/session";
 import Alert from "../../components/alert";
 import Form from "../../components/form";
 
 interface LocationState {
     redirectTo: string;
 }
+interface LoginInterface {}
 
-const Login: React.FC = () => {
+const Login: React.FC<LoginInterface> = (props) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [alert, setAlert] = useState("");
@@ -52,7 +53,7 @@ const Login: React.FC = () => {
         } else {
             setShowAlert(false);
             //create sesion
-            createSession(response.userId!);
+            setSessionUser(response.userId!);
             //navigate to next page
             navigate(redirectTo);
         }

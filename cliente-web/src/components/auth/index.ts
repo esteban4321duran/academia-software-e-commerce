@@ -1,2 +1,2 @@
-import Restrict from "./Restrict";
-export default Restrict;
+import AuthWrapper from "./Restrict";
+export default AuthWrapper;

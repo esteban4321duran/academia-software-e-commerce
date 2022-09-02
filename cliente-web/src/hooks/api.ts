@@ -38,18 +38,38 @@ const courseData: CourseCardInterface[] = [
         price: 13000,
     },
 ];
+export type Course = {
+    courseId: number;
+    imgSource: string;
+    title: string;
+    price: number;
+};
 
-export const getCourses = (filter: string = "") => {
+export const getCoursesByTitle = (filter: string = ""): Course[] => {
     if (filter === "") return courseData;
     return courseData.filter((course) => {
         return course.title.match(new RegExp(filter, "i"));
     });
 };
-export const getCourse = (courseId: number) => {
+export const getCoursesById = (...ids: number[]): Course[] => {
+    const result: Course[] = [];
+    ids.forEach((searchId) => {
+        const foundCourse = courseData.find((course) => {
+            return course.courseId === searchId;
+        });
+        //if course was not found, return and continue with next searchId
+        if (foundCourse === undefined) return;
+        result.push(foundCourse);
+    });
+    return result;
+};
+
+export const getCourse = (courseId: number): Course => {
     return courseData.find((course) => {
         return course.courseId === courseId;
     })!;
 };
+
 type LoginData = {
     email: string;
     password: string;
@@ -73,38 +93,41 @@ export const authenticate = (loginData: LoginData): AuthenticationResponse => {
             user.password === loginData.password
         );
     });
-    if (!user)
+    if (!user) {
         return {
             ok: false,
             userId: undefined,
         };
-    session.createSession(user.id);
+    }
+    session.setSessionUser(user.id);
 
     return {
         ok: true,
         userId: user.id,
     };
 };
-type InformationResponse = {
+type userDataResponse = {
     ok: boolean;
-    message: string | undefined;
+    userData: User;
 };
 type UserCreateData = {
     email: string;
     password: string;
 };
-export const createUser = (signupData: UserCreateData): InformationResponse => {
+export const createUser = (signupData: UserCreateData): userDataResponse => {
     const users = JSON.parse(
         localStorage.getItem("users") || "[]"
     ) as Array<User>;
 
-    users.push({
+    const newUser = {
         id: users.length,
         email: signupData.email,
         password: signupData.password,
-    });
+    };
+
+    users.push(newUser);
 
     localStorage.setItem("users", JSON.stringify(users));
 
-    return { ok: true, message: "user created" };
+    return { ok: true, userData: newUser };
 };

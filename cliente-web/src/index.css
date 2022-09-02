@@ -15,3 +15,22 @@ code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
         monospace;
 }
+/* custom style */
+@layer components {
+    .transition-duration {
+        transition: transform 0.8s;
+    }
+    .perspective {
+        perspective: 1000px;
+    }
+    .preserve-3d {
+        transform-style: preserve-3d;
+    }
+    .rotate-y {
+        transform: rotateY(180deg);
+    }
+    .backface-visibility {
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
+    }
+}

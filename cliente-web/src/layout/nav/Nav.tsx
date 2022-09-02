@@ -1,14 +1,15 @@
 import React from "react";
 import ShoppingCartButton from "../../components/shoppingCartButton";
 import NavLink from "../../components/navLink";
-import Restrict from "../../components/auth";
+import AuthWrapper from "../../components/auth";
 import { getAmountInCart } from "../../hooks/session";
 import userProfile from "./user-profile.png";
 import { useNavigate } from "react-router-dom";
-import { deleteSession } from "../../hooks/session";
+import { clearSesionUSer } from "../../hooks/session";
 
 interface NavInterface {
     cartAmount: number;
+    cartUpdateHandler: () => void;
 }
 
 const Nav: React.FC<NavInterface> = (props) => {
@@ -16,14 +17,15 @@ const Nav: React.FC<NavInterface> = (props) => {
     const handleLogout: React.MouseEventHandler<HTMLButtonElement> = (
         event
     ) => {
-        deleteSession();
+        clearSesionUSer();
+        props.cartUpdateHandler();
         navigate("/cursos");
     };
     return (
         <nav className="flex flex-row justify-between fixed top-0 left-0 w-screen bg-color60 py-2 px-2 shadow-sm z-10 ">
             <NavLink to="/cursos">Cursos</NavLink>
 
-            <Restrict
+            <AuthWrapper
                 login={false}
                 fallback={
                     <div className="flex flex-row">
@@ -50,7 +52,7 @@ const Nav: React.FC<NavInterface> = (props) => {
                         className="w-6 h-6 self-center mr-6"
                     />
                 </div>
-            </Restrict>
+            </AuthWrapper>
         </nav>
     );
 };

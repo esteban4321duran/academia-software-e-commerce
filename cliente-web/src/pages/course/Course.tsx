@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { getCourse } from "../../hooks/api";
+import { alreadyInCart } from "../../hooks/session";
 import useCourseIdFromState from "../../hooks/useCourseIdFromState";
 import Main from "../../layout/main";
 import Title from "../../components/title";
@@ -8,24 +9,23 @@ import { Link } from "react-router-dom";
 import PriceTag from "../../components/priceTag";
 import CourseCard from "../../components/courseCard";
 import Button from "../../components/button";
-import closeImg from "./close.png";
+import Modal from "../../components/modal";
 interface CourseInterface {
-    addToCartHandler: React.MouseEventHandler<HTMLButtonElement>;
+    addToCartHandler: (courseId: number) => void;
 }
 
 const Course: React.FC<CourseInterface> = (props) => {
     const [showModal, setShowModal] = useState(false);
     const courseId = useCourseIdFromState();
     const course = getCourse(courseId);
-
-    const closeHandler: React.MouseEventHandler<HTMLImageElement> = (event) => {
+    const handleModalClose = () => {
         setShowModal(false);
     };
     const subscribeHandler: React.MouseEventHandler<HTMLButtonElement> = (
         event
     ) => {
         setShowModal(true);
-        props.addToCartHandler(event);
+        props.addToCartHandler(courseId);
     };
 
     return (
@@ -70,35 +70,25 @@ const Course: React.FC<CourseInterface> = (props) => {
             </div>
             <div className="col-span-3 bg-color30 max-w-5xl p-8 rounded-lg flex flex-col items-center space-y-4">
                 <PriceTag>{course.price}</PriceTag>
-                <button
-                    className="bg-color10 text-color60 rounded-lg py-2 px-6"
-                    onClick={subscribeHandler}
-                >
-                    Inscribirse
-                </button>
-            </div>
-            <div
-                className={`w-screen h-screen backdrop-blur-sm fixed top-0 left-0 ${
-                    showModal ? "" : "hidden"
-                }`}
-            >
-                <div className="bg-color60 z-20 w-full max-w-2xl relative -translate-x-2/4 -translate-y-2/4 top-2/4 left-2/4 flex flex-col items-center space-y-4 py-4 px-4 rounded-lg shadow-2xl">
-                    <Subtitle>Añadido al Carrito</Subtitle>
-                    <CourseCard {...course} />
+                {alreadyInCart(courseId) ? (
                     <Link to="/carrito">
-                        <Button>Ir al Carrito</Button>
+                        <Button variant="color10">Ir al carrito</Button>
                     </Link>
-
-                    <img
-                        src={closeImg}
-                        alt="close button"
-                        className="w-5 h-5 cursor-pointer absolute top-1 right-4"
-                        onClick={closeHandler}
-                    />
-                </div>
+                ) : (
+                    <Button variant="color10" clickHandler={subscribeHandler}>
+                        Inscribirse
+                    </Button>
+                )}
             </div>
+            <Modal show={showModal} closeHandler={handleModalClose}>
+                <Subtitle>Añadido al Carrito</Subtitle>
+                {/* Implement variant that doesn't have styles on hover and doesn't redirect to he course*/}
+                <CourseCard {...course} />
+                <Link to="/carrito">
+                    <Button>Ir al Carrito</Button>
+                </Link>
+            </Modal>
         </Main>
     );
 };
 export default Course;
-//TODO the fcknn modal window. perhaps should use a dialog

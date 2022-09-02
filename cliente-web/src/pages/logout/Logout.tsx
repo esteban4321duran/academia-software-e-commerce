@@ -1,8 +1,8 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { deleteSession } from "../../hooks/session";
+import { clearSesionUSer } from "../../hooks/session";
 const Logout: React.FC = () => {
-    deleteSession();
+    clearSesionUSer();
     const navigate = useNavigate();
     navigate("/cursos");
     return <></>;

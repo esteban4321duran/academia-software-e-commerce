@@ -7,8 +7,11 @@ import Alert from "../../components/alert";
 import FormField from "../../components/formField";
 import Button from "../../components/button";
 import { createUser } from "../../hooks/api";
+import { setSessionUser } from "../../hooks/session";
 
-const Signup: React.FC = () => {
+interface SignupInterface {}
+//TODO gotta redirect to /cart if user comes from /login after trying to visit /cart
+const Signup: React.FC<SignupInterface> = (props) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
@@ -49,7 +52,9 @@ const Signup: React.FC = () => {
             password,
         };
         //create new user
-        createUser(signupData);
+        const user = createUser(signupData);
+        //create session
+        setSessionUser(user.userData.id);
         //redirect
         navigate("/cursos");
     };
