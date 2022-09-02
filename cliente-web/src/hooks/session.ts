@@ -57,3 +57,8 @@ export const alreadyInCart = (courseId: number) => {
     const session = getSession();
     return session.shoppingCart.includes(courseId);
 };
+export const clearCart = () => {
+    const session = getSession();
+    session.shoppingCart = [];
+    updateSession(session);
+};

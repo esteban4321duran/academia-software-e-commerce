@@ -128,6 +128,35 @@ export const createUser = (signupData: UserCreateData): userDataResponse => {
     users.push(newUser);
 
     localStorage.setItem("users", JSON.stringify(users));
-
     return { ok: true, userData: newUser };
+};
+type UserCourse = {
+    userId: number;
+    courseId: number;
+};
+export const subscribeUser = (userId: number, courseId: number) => {
+    const userCourses = JSON.parse(
+        localStorage.getItem("userCourses") || "[]"
+    ) as Array<UserCourse>;
+    const alreadySubscribed = userCourses.some((userCourse) => {
+        return userCourse.courseId === courseId && userCourse.userId === userId;
+    });
+    if (alreadySubscribed) return;
+
+    userCourses.push({
+        userId,
+        courseId,
+    });
+    localStorage.setItem(
+        "userCourses",
+        JSON.stringify(Array.from(userCourses))
+    );
+};
+export const getUserCourses = (userId: number) => {
+    const userCourses = JSON.parse(
+        localStorage.getItem("userCourses") || "[]"
+    ) as Array<UserCourse>;
+    return userCourses.filter((userCourse) => {
+        return userCourse.userId === userId;
+    });
 };

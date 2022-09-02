@@ -5,7 +5,7 @@ export interface CourseCardInterface {
     courseId: number;
     imgSource: string;
     title: string;
-    price: number;
+    price?: number;
     redirectsOnClick?: boolean;
 }
 
@@ -30,7 +30,11 @@ const CourseCard: React.FC<CourseCardInterface> = (props) => {
                     Lorem, ipsum dolor sit amet consectetur adipisicing elit.
                     Eveniet, modi!
                 </p>
-                <PriceTag>{props.price}</PriceTag>
+                {props.price === undefined ? (
+                    ""
+                ) : (
+                    <PriceTag>{props.price}</PriceTag>
+                )}
             </div>
         </div>
     );

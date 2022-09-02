@@ -1,5 +1,10 @@
 import { useState } from "react";
-import { getAmountInCart, addToCart, removeFromCart } from "./hooks/session";
+import {
+    getAmountInCart,
+    addToCart,
+    removeFromCart,
+    clearCart,
+} from "./hooks/session";
 import Nav from "./layout/nav";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Courses from "./pages/courses";
@@ -8,6 +13,7 @@ import Login from "./pages/login";
 import Signup from "./pages/signup";
 import Cart from "./pages/cart";
 import AuthWrapper from "./components/auth";
+import PurchaseSummary from "./pages/purchaseSummary";
 
 function App() {
     const [cartAmount, setCartAmount] = useState(getAmountInCart());
@@ -20,6 +26,10 @@ function App() {
     };
     const handleRemoveFromCart = (courseId: number) => {
         removeFromCart(courseId);
+        updateCartAmount();
+    };
+    const handleClearCart = () => {
+        clearCart();
         updateCartAmount();
     };
     return (
@@ -46,6 +56,12 @@ function App() {
                                 removeFromCartHandler={handleRemoveFromCart}
                             />
                         </AuthWrapper>
+                    }
+                />
+                <Route
+                    path="/resumen-compra"
+                    element={
+                        <PurchaseSummary clearCartHandler={handleClearCart} />
                     }
                 />
                 <Route

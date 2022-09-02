@@ -12,6 +12,7 @@ import Modal from "../../components/modal";
 import creditCardChip from "./credit-card-chip.png";
 import Form from "../../components/form";
 import FormField from "../../components/formField";
+import { subscribeUser } from "../../hooks/api";
 
 interface CartInterface {
     removeFromCartHandler: (courseId: number) => void;
@@ -29,13 +30,14 @@ const Cart: React.FC<CartInterface> = (props) => {
     }, 0);
 
     //credit card form state
+    const [flipCard, setFlipCard] = useState(false);
     const [cardNumber, setCardNumber] = useState("");
     const [expMonth, setExpMonth] = useState("");
     const [expYear, setExpYear] = useState("");
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [securityCode, setSecurityCode] = useState("");
-    const [telephone, setTelephone] = useState("");
+    const [phone, setPhone] = useState("");
 
     const handleModalClose = () => {
         setShowModal(false);
@@ -86,8 +88,53 @@ const Cart: React.FC<CartInterface> = (props) => {
         event
     ) => {
         const value = event.target.value;
-
         setCardNumber(value.slice(0, 16));
+    };
+    const handleExpMonthChange: React.ChangeEventHandler<HTMLInputElement> = (
+        event
+    ) => {
+        const value = event.target.value;
+        setExpMonth(value.slice(0, 2));
+    };
+    const handleExpYearChange: React.ChangeEventHandler<HTMLInputElement> = (
+        event
+    ) => {
+        const value = event.target.value;
+        setExpYear(value.slice(0, 2));
+    };
+    const handleSecurityCodeChange: React.ChangeEventHandler<
+        HTMLInputElement
+    > = (event) => {
+        const value = event.target.value;
+        setSecurityCode(value.slice(0, 3));
+    };
+    const handleFirstNameChange: React.ChangeEventHandler<HTMLInputElement> = (
+        event
+    ) => {
+        const value = event.target.value;
+        setFirstName(value);
+    };
+    const handleLastNameChange: React.ChangeEventHandler<HTMLInputElement> = (
+        event
+    ) => {
+        const value = event.target.value;
+
+        setLastName(value);
+    };
+    const handlePhoneChange: React.ChangeEventHandler<HTMLInputElement> = (
+        event
+    ) => {
+        const value = event.target.value;
+        setPhone(value);
+    };
+    const handleSubmit: React.FormEventHandler<HTMLFormElement> = (event) => {
+        event.preventDefault();
+        const userId = session.userId!;
+        courseIds.forEach((courseId) => {
+            subscribeUser(userId, courseId);
+        });
+        setShowModal(false);
+        //navigate to /resumen-compra
     };
 
     return (
@@ -122,8 +169,12 @@ const Cart: React.FC<CartInterface> = (props) => {
                 </>
             )}
             <Modal show={showModal} closeHandler={handleModalClose}>
-                <div className="bg-transparent w-72 h-48  perspective group ">
-                    <div className="relative w-full h-full transition-duration preserve-3d group-hover:rotate-y">
+                <div className="bg-transparent w-72 h-48 perspective group flex-shrink-0">
+                    <div
+                        className={`relative w-full h-full transition-duration preserve-3d ${
+                            flipCard ? "rotate-y" : ""
+                        }`}
+                    >
                         <div className="absolute w-full h-full backface-visibility bg-color30 text-color60 rounded-xl flex flex-col p-4 space-y-3">
                             <img
                                 src={creditCardChip}
@@ -165,7 +216,7 @@ const Cart: React.FC<CartInterface> = (props) => {
                         </div>
                     </div>
                 </div>
-                <Form sumbitHandler={() => {}}>
+                <Form sumbitHandler={handleSubmit}>
                     <FormField
                         changeHandler={handleCardNumberChange}
                         type="text"
@@ -173,10 +224,46 @@ const Cart: React.FC<CartInterface> = (props) => {
                         label="Card Number"
                     ></FormField>
                     <FormField
-                        changeHandler={handleCardNumberChange}
+                        changeHandler={handleExpMonthChange}
                         type="text"
-                        value={cardNumber}
-                        label="Card Number"
+                        value={expMonth}
+                        label="Mes de Expiración"
+                    ></FormField>
+                    <FormField
+                        changeHandler={handleExpYearChange}
+                        type="text"
+                        value={expYear}
+                        label="Año de Expiración"
+                    ></FormField>
+                    <FormField
+                        changeHandler={handleSecurityCodeChange}
+                        focusHandler={() => {
+                            setFlipCard(true);
+                        }}
+                        blurHandler={() => {
+                            setFlipCard(false);
+                        }}
+                        type="text"
+                        value={securityCode}
+                        label="Código de Seguridad"
+                    ></FormField>
+                    <FormField
+                        changeHandler={handleFirstNameChange}
+                        type="text"
+                        value={firstName}
+                        label="Nombre del Titular"
+                    ></FormField>
+                    <FormField
+                        changeHandler={handleLastNameChange}
+                        type="text"
+                        value={lastName}
+                        label="Apellido del Titular"
+                    ></FormField>
+                    <FormField
+                        changeHandler={handlePhoneChange}
+                        type="text"
+                        value={phone}
+                        label="Teléfono"
                     ></FormField>
 
                     <div className="flex flex-row justify-center">
