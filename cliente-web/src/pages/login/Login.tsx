@@ -83,7 +83,7 @@ const Login: React.FC<LoginInterface> = (props) => {
             <Alert show={showAlert}>{alert}</Alert>
             <div className="border-2 border-color30 flex flex-col  col-span-3 max-w-md w-full mx-auto p-8 space-y-4 items-center rounded-lg">
                 <p className="text-center font-medium">¿No tiene una cuenta?</p>
-                <Link to="/registrarse">
+                <Link to="/registrarse" state={{ redirectTo }}>
                     <Button>Registrarse</Button>
                 </Link>
             </div>

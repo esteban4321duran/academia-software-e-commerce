@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { getCourse } from "../../hooks/api";
-import { alreadyInCart } from "../../hooks/session";
+import { getCourse, userOwnsCourse } from "../../hooks/api";
+import { alreadyInCart, getSession } from "../../hooks/session";
 import useCourseIdFromState from "../../hooks/useCourseIdFromState";
 import Main from "../../layout/main";
 import Title from "../../components/title";
@@ -18,6 +18,8 @@ const Course: React.FC<CourseInterface> = (props) => {
     const [showModal, setShowModal] = useState(false);
     const courseId = useCourseIdFromState();
     const course = getCourse(courseId);
+    const userId = getSession().userId;
+
     const handleModalClose = () => {
         setShowModal(false);
     };
@@ -27,6 +29,53 @@ const Course: React.FC<CourseInterface> = (props) => {
         setShowModal(true);
         props.addToCartHandler(courseId);
     };
+    const buyCourseComponent = (
+        <div className="col-span-3 bg-color30 max-w-5xl p-8 rounded-lg flex flex-col items-center space-y-4">
+            <PriceTag>{course.price}</PriceTag>
+            {alreadyInCart(courseId) ? (
+                <Link to="/carrito">
+                    <Button variant="color10">Ir al carrito</Button>
+                </Link>
+            ) : (
+                <Button variant="color10" clickHandler={subscribeHandler}>
+                    Inscribirse
+                </Button>
+            )}
+        </div>
+    );
+    const courseContent = (
+        <div className="col-span-3 flex flex-col space-y-4">
+            {[1, 2, 3].map((sectionNumber) => {
+                return (
+                    <div
+                        key={sectionNumber}
+                        className=" flex flex-col space-y-4"
+                    >
+                        <div className="h-1 border-t-2 border-color30"></div>
+                        <Subtitle>{`Sección ${sectionNumber}`}</Subtitle>
+                        <p>
+                            Lorem ipsum dolor sit amet consectetur adipisicing
+                            elit. Perferendis, corporis repudiandae dicta
+                            maiores, dolores debitis deleniti excepturi natus,
+                            cumque iure doloremque vitae explicabo voluptas!
+                            Similique minus laborum ipsa autem suscipit. Neque
+                            at aspernatur repellat adipisci quidem. Tempore
+                            molestiae omnis a, commodi sapiente iusto eum
+                            placeat maxime asperiores ipsum fugit aperiam
+                            veritatis nesciunt maiores praesentium accusantium
+                            quibusdam nisi atque rem obcaecati recusandae
+                            necessitatibus. Voluptatum voluptates odit nemo
+                            ducimus nostrum, magnam libero illum accusamus eos
+                            ab enim labore autem expedita eaque debitis!
+                            Repudiandae reprehenderit corporis aliquid, totam
+                            assumenda ut odit excepturi sit nemo officia
+                            tempora. Quidem adipisci iure mollitia ex et illum!
+                        </p>
+                    </div>
+                );
+            })}
+        </div>
+    );
 
     return (
         <Main>
@@ -68,18 +117,10 @@ const Course: React.FC<CourseInterface> = (props) => {
                     <li>Lorem ipsum dolor sit amet consectetur adipisicing.</li>
                 </ul>
             </div>
-            <div className="col-span-3 bg-color30 max-w-5xl p-8 rounded-lg flex flex-col items-center space-y-4">
-                <PriceTag>{course.price}</PriceTag>
-                {alreadyInCart(courseId) ? (
-                    <Link to="/carrito">
-                        <Button variant="color10">Ir al carrito</Button>
-                    </Link>
-                ) : (
-                    <Button variant="color10" clickHandler={subscribeHandler}>
-                        Inscribirse
-                    </Button>
-                )}
-            </div>
+            {userId !== undefined && userOwnsCourse(userId, courseId)
+                ? courseContent
+                : buyCourseComponent}
+
             <Modal show={showModal} closeHandler={handleModalClose}>
                 <Subtitle>Añadido al Carrito</Subtitle>
                 {/* Implement variant that doesn't have styles on hover and doesn't redirect to he course*/}

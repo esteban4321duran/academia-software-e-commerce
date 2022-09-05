@@ -14,6 +14,7 @@ import Signup from "./pages/signup";
 import Cart from "./pages/cart";
 import AuthWrapper from "./components/auth";
 import PurchaseSummary from "./pages/purchaseSummary";
+import MyCourses from "./pages/myCourses";
 
 function App() {
     const [cartAmount, setCartAmount] = useState(getAmountInCart());
@@ -44,10 +45,7 @@ function App() {
                 />
                 <Route path="/ingresar" element={<Login />} />
                 <Route path="/registrarse" element={<Signup />} />
-                <Route
-                    path="/mis-cursos"
-                    element={<p className="w-fit my-32 mx-auto">mis cursos</p>}
-                />
+                <Route path="/mis-cursos" element={<MyCourses />} />
                 <Route
                     path="/carrito"
                     element={

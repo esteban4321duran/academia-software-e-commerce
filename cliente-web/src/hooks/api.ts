@@ -159,3 +159,13 @@ export const getUserCourses = (userId: number) => {
         return userCourse.userId === userId;
     });
 };
+
+export const userOwnsCourse = (
+    userId: number,
+    searchCourseId: number
+): boolean => {
+    const userCourses = getUserCourses(userId);
+    return userCourses.some((userCourse) => {
+        return userCourse.courseId === searchCourseId;
+    });
+};

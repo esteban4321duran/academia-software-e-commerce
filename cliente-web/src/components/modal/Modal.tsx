@@ -12,7 +12,7 @@ const Modal: React.FC<ModalInterface> = (props) => {
                 props.show ? "" : "hidden"
             }`}
         >
-            <div className="bg-color60 z-20 w-full max-w-2xl relative -translate-x-2/4 -translate-y-2/4 top-2/4 left-2/4 flex flex-col items-center space-y-4 py-4 px-4 rounded-lg shadow-2xl h-3/4">
+            <div className="bg-color60 z-20 w-full max-w-2xl relative -translate-x-2/4 -translate-y-2/4 top-2/4 left-2/4 flex flex-col items-center space-y-4 py-4 px-4 rounded-lg shadow-2xl">
                 {props.children}
                 <img
                     src={closeImg}

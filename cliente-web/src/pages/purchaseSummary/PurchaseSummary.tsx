@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { getSession } from "../../hooks/session";
-import { getCoursesById, Course } from "../../hooks/api";
+import { getCoursesById } from "../../hooks/api";
 import Main from "../../layout/main";
 import Title from "../../components/title";
 import CourseCard, { CourseCardInterface } from "../../components/courseCard";

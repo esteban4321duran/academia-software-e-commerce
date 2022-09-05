@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 //TODO refactor api and session out of hooks package
 import { getSession } from "../../hooks/session";
 import { getCoursesById, Course } from "../../hooks/api";
@@ -38,6 +38,7 @@ const Cart: React.FC<CartInterface> = (props) => {
     const [lastName, setLastName] = useState("");
     const [securityCode, setSecurityCode] = useState("");
     const [phone, setPhone] = useState("");
+    const navigate = useNavigate();
 
     const handleModalClose = () => {
         setShowModal(false);
@@ -134,7 +135,7 @@ const Cart: React.FC<CartInterface> = (props) => {
             subscribeUser(userId, courseId);
         });
         setShowModal(false);
-        //navigate to /resumen-compra
+        navigate("/resumen-compra");
     };
 
     return (
@@ -216,60 +217,62 @@ const Cart: React.FC<CartInterface> = (props) => {
                         </div>
                     </div>
                 </div>
-                <Form sumbitHandler={handleSubmit}>
-                    <FormField
-                        changeHandler={handleCardNumberChange}
-                        type="text"
-                        value={cardNumber}
-                        label="Card Number"
-                    ></FormField>
-                    <FormField
-                        changeHandler={handleExpMonthChange}
-                        type="text"
-                        value={expMonth}
-                        label="Mes de Expiración"
-                    ></FormField>
-                    <FormField
-                        changeHandler={handleExpYearChange}
-                        type="text"
-                        value={expYear}
-                        label="Año de Expiración"
-                    ></FormField>
-                    <FormField
-                        changeHandler={handleSecurityCodeChange}
-                        focusHandler={() => {
-                            setFlipCard(true);
-                        }}
-                        blurHandler={() => {
-                            setFlipCard(false);
-                        }}
-                        type="text"
-                        value={securityCode}
-                        label="Código de Seguridad"
-                    ></FormField>
-                    <FormField
-                        changeHandler={handleFirstNameChange}
-                        type="text"
-                        value={firstName}
-                        label="Nombre del Titular"
-                    ></FormField>
-                    <FormField
-                        changeHandler={handleLastNameChange}
-                        type="text"
-                        value={lastName}
-                        label="Apellido del Titular"
-                    ></FormField>
-                    <FormField
-                        changeHandler={handlePhoneChange}
-                        type="text"
-                        value={phone}
-                        label="Teléfono"
-                    ></FormField>
+                <div className="max-h-96 overflow-auto">
+                    <Form sumbitHandler={handleSubmit}>
+                        <FormField
+                            changeHandler={handleCardNumberChange}
+                            type="text"
+                            value={cardNumber}
+                            label="Número de Tarjeta"
+                        ></FormField>
+                        <FormField
+                            changeHandler={handleExpMonthChange}
+                            type="text"
+                            value={expMonth}
+                            label="Mes de Expiración"
+                        ></FormField>
+                        <FormField
+                            changeHandler={handleExpYearChange}
+                            type="text"
+                            value={expYear}
+                            label="Año de Expiración"
+                        ></FormField>
+                        <FormField
+                            changeHandler={handleSecurityCodeChange}
+                            focusHandler={() => {
+                                setFlipCard(true);
+                            }}
+                            blurHandler={() => {
+                                setFlipCard(false);
+                            }}
+                            type="text"
+                            value={securityCode}
+                            label="Código de Seguridad"
+                        ></FormField>
+                        <FormField
+                            changeHandler={handleFirstNameChange}
+                            type="text"
+                            value={firstName}
+                            label="Nombre del Titular"
+                        ></FormField>
+                        <FormField
+                            changeHandler={handleLastNameChange}
+                            type="text"
+                            value={lastName}
+                            label="Apellido del Titular"
+                        ></FormField>
+                        <FormField
+                            changeHandler={handlePhoneChange}
+                            type="text"
+                            value={phone}
+                            label="Teléfono"
+                        ></FormField>
 
-                    <div className="flex flex-row justify-center">
-                        <Button>Pagar</Button>
-                    </div>
-                </Form>
+                        <div className="flex flex-row justify-center">
+                            <Button>Pagar</Button>
+                        </div>
+                    </Form>
+                </div>
             </Modal>
         </Main>
     );
