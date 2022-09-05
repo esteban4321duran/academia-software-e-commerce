@@ -5,8 +5,13 @@ import qaImg from "../assets/images/qa.jpg";
 import javaImg from "../assets/images/java.jpg";
 import networkImg from "../assets/images/network.jpg";
 import * as session from "./session";
-
-const courseData: CourseCardInterface[] = [
+export type Course = {
+    courseId: number;
+    imgSource: string;
+    title: string;
+    price: number;
+};
+const courseData: Course[] = [
     {
         courseId: 0,
         imgSource: webdevImg,
@@ -38,12 +43,6 @@ const courseData: CourseCardInterface[] = [
         price: 13000,
     },
 ];
-export type Course = {
-    courseId: number;
-    imgSource: string;
-    title: string;
-    price: number;
-};
 
 export const getCoursesByTitle = (filter: string = ""): Course[] => {
     if (filter === "") return courseData;
