@@ -170,13 +170,13 @@ const Cart: React.FC<CartInterface> = (props) => {
                 </>
             )}
             <Modal show={showModal} closeHandler={handleModalClose}>
-                <div className="bg-transparent w-72 h-48 perspective group flex-shrink-0">
+                <div className="bg-transparent w-72 h-40 perspective group flex-shrink-0">
                     <div
                         className={`relative w-full h-full transition-duration preserve-3d ${
                             flipCard ? "rotate-y" : ""
                         }`}
                     >
-                        <div className="absolute w-full h-full backface-visibility bg-color30 text-color60 rounded-xl flex flex-col p-4 space-y-3">
+                        <div className="absolute w-full h-full backface-visibility bg-color30 text-color60 rounded-xl flex flex-col p-4 space-y-1">
                             <img
                                 src={creditCardChip}
                                 alt="credit card chip"
