@@ -15,6 +15,7 @@ import Cart from "./pages/cart";
 import AuthWrapper from "./components/auth";
 import PurchaseSummary from "./pages/purchaseSummary";
 import MyCourses from "./pages/myCourses";
+import Courses2 from "./pages/user-stories/courses";
 
 function App() {
     const [cartAmount, setCartAmount] = useState(getAmountInCart());
@@ -70,6 +71,7 @@ function App() {
                         </main>
                     }
                 />
+                <Route path="historias-usuario/cursos" element={<Courses2 />} />
             </Routes>
         </BrowserRouter>
     );
